@@ -1,0 +1,4 @@
+[
+	{"name": "scald", "basePower": 80, "type": "water", "attackType": "SPECIAL", "secondaryEffect": 1, "secondaryEffectChance": 30, "target": 1},
+	{"name": "giga drain", "basePower": 75, "type": "grass", "attackType": "SPECIAL", "secondaryEffect": 2, "secondaryEffectChance": 100, "target": 1}
+]
