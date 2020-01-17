@@ -3,7 +3,7 @@ package jsons;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import Factories.FactoryCreator;
+import factories.FactoryCreator;
 import pokemon.Attack;
 import pokemon.AttackType;
 import pokemon.Pokemon;

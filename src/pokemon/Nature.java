@@ -2,19 +2,19 @@ package pokemon;
 
 public class Nature {
 	
-	private Stats positiveStat = null;
-	private Stats negativeStat = null;
+	private Attribute positiveStat = null;
+	private Attribute negativeStat = null;
 	
-	public Nature(Stats positive, Stats negative){
+	public Nature(Attribute positive, Attribute negative){
 		this.positiveStat = positive;
 		this.negativeStat = negative;
 	}
 	
-	public Stats getPositive(){
+	public Attribute getPositive(){
 		return this.positiveStat;
 	}
 	
-	public Stats getNegative(){
+	public Attribute getNegative(){
 		return this.negativeStat;
 	}
 

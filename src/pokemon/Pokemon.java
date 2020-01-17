@@ -11,21 +11,21 @@ public class Pokemon {
 	private Attack[] attacks = null;
 	private Type primaryTyping = null;
 	private Type secondaryTyping = null;
-	private int level = 1;
-	private StatusConditions statusCondition = null;
-	private Item item = null;
-	private Ability ablility = null;
-	private Map stats = new HashMap<Stats, Integer>();
-	private int currentHealth = 0;
-	private int maxHealth = 0;
-	private Map evs = new HashMap<Stats, Integer>();
-	private Map ivs = new HashMap<Stats, Integer>();
+	private int level;
+	private StatusConditions statusCondition;
+	private Item item;
+	private Ability ablility;
+	private HashMap<Attribute, Integer> stats = new HashMap<Attribute, Integer>();
+	private int currentHealth;
+	private int maxHealth;
+	private HashMap<Attribute, Integer> evs = new HashMap<Attribute, Integer>();
+	private HashMap<Attribute, Integer> ivs = new HashMap<Attribute, Integer>();
 	private boolean inBattle = false;
-	private int currentBoost = 0;
-	private Nature nature = null;
+	private int currentBoost;
+	private Nature nature;
 	
 	public Pokemon(String name, Attack[] learnset, Type primaryTyping, Type secondaryTyping,
-			int level, HashMap<Stats, Integer> baseStats, Nature nature) {
+			int level, HashMap<Attribute, Integer> baseStats, Nature nature) {
 		super();
 		if(attacks.length > 4){
 			throw new IllegalArgumentException("Can't have more than 4 attacks");
@@ -36,7 +36,7 @@ public class Pokemon {
 		this.secondaryTyping = secondaryTyping;
 		this.level = level;
 		this.stats = baseStats;
-		this.currentHealth = (int) stats.get(Stats.HP);
+		this.currentHealth = (int) stats.get(Attribute.HP);
 		this.maxHealth = this.currentHealth;
 		this.nature = nature;
 	}
@@ -48,30 +48,31 @@ public class Pokemon {
 		this.attacks = attacks;
 	}
 	
-	public void setEvsIvs(HashMap<Stats, Integer> evs, HashMap<Stats, Integer> ivs){
+	public void setEvsIvs(HashMap<Attribute, Integer> evs, HashMap<Attribute, Integer> ivs){
 		this.evs = evs;
 		this.ivs = ivs;
-		for(Object stat: stats.keySet()){
-			Double finalStat = (2*((Integer)stats.get(stat) + (Integer)ivs.get(stat)) 
-					+ ((Math.sqrt((Integer)evs.get(stat))/4) * level )/ 100) +5;
-			stats.put(stat, Math.floor(finalStat));
+		for(Attribute stat: stats.keySet()){
+			int finalStat = (int) ((2*(stats.get(stat) + ivs.get(stat)) 
+					+ ((Math.sqrt(evs.get(stat))/4) * level )/ 100) +5);
+			stats.put(stat, finalStat);
 		}
 		
-		Stats pos = this.nature.getPositive();
+		Attribute pos = this.nature.getPositive();
 		
 		if(pos != null){
 			int stat = (int) ((Integer) stats.get(pos) * 1.1);
 			stats.put(pos, stat);
 			//a positive nature must have a negative stat
-			Stats neg = this.nature.getNegative();
+			Attribute neg = this.nature.getNegative();
 			stat = (int) ((Integer) stats.get(neg) * 0.9);
 			stats.put(neg, stat);
 		}
 		
-		stats.put(Stats.HP, (Integer)stats.get(Stats.HP) + 5 + level);
+		stats.put(Attribute.HP, (Integer)stats.get(Attribute.HP) + 5 + level);
 	}
 	
 	public int attack(int move, Pokemon target){
+		if(move<1 || move>3) throw new IllegalArgumentException("inccorect move selected");
 		int damage = attacks[move].attack(this, target);
 		target.damage(damage);
 		return damage;
@@ -93,7 +94,7 @@ public class Pokemon {
 		return level;
 	}
 	
-	public int getStat(Stats s){
+	public int getStat(Attribute s){
 		return (int) stats.get(s);
 	}
 	
@@ -104,7 +105,7 @@ public class Pokemon {
 	public void setStatusCondition(StatusConditions s){
 		this.statusCondition = s;
 		if(s == statusCondition.Burn){
-			boostStat(Stats.ATTACK, -2);
+			boostStat(Attribute.ATTACK, -2);
 		}
 	}
 	
@@ -132,7 +133,7 @@ public class Pokemon {
 		newPokemon.switchIn();
 	}
 	
-	public void boostStat(Stats stat, int boost){
+	public void boostStat(Attribute stat, int boost){
 		currentBoost += boost;
 		if(currentBoost > 0){
 			int newStat = (Integer) stats.get(stat) * ((currentBoost + 2) / 2);

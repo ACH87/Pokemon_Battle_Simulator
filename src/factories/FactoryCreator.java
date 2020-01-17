@@ -1,4 +1,4 @@
-package Factories;
+package factories;
 
 import java.util.Map;
 

@@ -1,5 +1,5 @@
 package pokemon;
 
-public enum Stats {
+public enum Attribute {
 	HP, ATTACK, SPECIAL_ATTACK, DEFENSE, SPECIAL_DEFENSE, SPEED
 }

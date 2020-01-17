@@ -9,7 +9,7 @@ public class Team {
 	private List<Pokemon> team = new ArrayList<Pokemon>();
 	
 	public void addNewPokemon(Pokemon pokemon){
-		if(team.size() > 6){
+		if(team.size() >= 6){
 			throw new IllegalArgumentException("Can't have more than 6 pokemon");
 		}
 		

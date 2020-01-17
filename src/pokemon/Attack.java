@@ -4,14 +4,14 @@ import java.util.Random;
 
 public class Attack {
 	
-	private String name = null;
-	private int basePower = 0;
-	private Type type = null;
-	private AttackEffects effect = null;
-	private int effectChance = 0;
-	private AttackType attackType = null;
-	private int targets = 1;
-	private double otherModifier = 1.0;
+	private String name;
+	private int basePower;
+	private Type type;
+	private AttackEffects effect;
+	private int effectChance;
+	private AttackType attackType;
+	private int targets;
+	private double otherModifier;
 	
 	/**
 	 * 
@@ -31,16 +31,15 @@ public class Attack {
 	 *   number of targets (i.e swift hits 2 targets)
 	 */
 	public Attack(String name, int basePower, Type type, AttackType attackType, AttackEffects effect,
-			int effectChance, int targets){
+			int effectChance, int targets){	
+		if(targets<1) throw new IllegalArgumentException("need number of targets");
 		this.name = name;
 		this.basePower = basePower;
 		this.type =  type;
 		this.attackType = attackType;
 		this.effect = effect;
 		this.effectChance = effectChance;
-		if(targets != 0 ){
-			this.targets = targets;
-		}
+		
 	}
 
 	public String getName() {
@@ -145,12 +144,12 @@ public class Attack {
 		int preModDamage = 0;
 		if(attackType == AttackType.PHYSICAL){
 			preModDamage = ((2*user.getLvl())/5 + 2) * basePower * 
-					(user.getStat(Stats.ATTACK)/target.getStat(Stats.DEFENSE));
+					(user.getStat(Attribute.ATTACK)/target.getStat(Attribute.DEFENSE));
 			preModDamage = (int) Math.ceil((preModDamage/50) + 2);
 		}
 		else if(attackType == AttackType.SPECIAL){
 			preModDamage = ((2*user.getLvl())/5 + 2) * basePower * 
-					(user.getStat(Stats.SPECIAL_ATTACK)/target.getStat(Stats.SPECIAL_DEFENSE));
+					(user.getStat(Attribute.SPECIAL_ATTACK)/target.getStat(Attribute.SPECIAL_DEFENSE));
 			preModDamage = (int) Math.ceil((preModDamage/50) + 2);
 		}
 		return preModDamage;
