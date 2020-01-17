@@ -117,10 +117,7 @@ public class Pokemon {
 	}
 	
 	public void regainHealth(int i){
-		currentHealth += i;
-		if(currentHealth > maxHealth){
-			currentHealth = maxHealth;
-		}
+		currentHealth = Math.min(currentHealth + i, maxHealth);
 	}
 	
 	public void switchIn(){
